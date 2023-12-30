@@ -1,5 +1,5 @@
-shiny::observeEvent(input$tabSwitch, {
-  showNotification("Kliknij na wybrany sklep aby rozwinąć bardziej szegółowe dane", duration = 100000)
+shiny::observeEvent(input$shops_map_help, {
+  shiny::showNotification("Kliknij na wybrany sklep aby rozwinąć bardziej szegółowe dane", duration = 100000)
 })
 
 

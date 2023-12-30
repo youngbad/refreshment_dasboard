@@ -4,16 +4,16 @@ shopstabmap <- bs4Dash::tabItem(
   
   shiny::div(
     
-    style = "display: inline-block; vertical-align:top; padding-top:100px;",
-    
     shiny::fluidRow(
       
-      shiny::h4("Mapa sklepów "),
-      
-      shiny::actionButton(
-        inputId ="shops_map_help",
-        label = "", 
-        icon = icon("question")
+      shiny::column(
+        
+        width = 12, 
+        
+        align = "center",
+        
+        shiny::h4("Mapa sklepów "),
+        
       )
     )
   ),
@@ -25,7 +25,15 @@ shopstabmap <- bs4Dash::tabItem(
       width = 12,
       
       bs4Dash::box(
-       title = "Mapa sklepów", 
+       title = p("Mapa sklepów", 
+        shiny::actionButton(
+           inputId ="shops_map_help",
+           label = "", 
+           icon = icon("question"),
+           style='padding:4px; font-size:80%'
+           ),
+        style = 'margin:0 auto;'
+       ), 
        elevation = 4,
        width = 12,
        closable = TRUE, 
