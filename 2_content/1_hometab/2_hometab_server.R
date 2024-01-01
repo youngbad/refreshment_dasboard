@@ -1,3 +1,19 @@
+#### Reactive values ####
+
+top_shop_last_month <- shopssales %>%
+  dplyr::filter(date == max(date)) %>%
+  dplyr::group_by(city) %>% 
+  dplyr::summarise(sales = sum(sales, na.rm = TRUE)) %>%
+  dplyr::arrange(dplyr::desc(sales))
+
+top_product_last_month <- sales %>%
+  dplyr::filter(date == max(date)) %>%
+  dplyr::group_by(brand) %>%
+  dplyr::summarise(sales = sum(sales, na.rm = TRUE)) %>%
+  dplyr::arrange(dplyr::desc(sales))
+
+#### Outputs ####
+
 output$test <- plotly::renderPlotly({
   fig <- plotly::plot_ly(
     domain = list(x = c(0, 1), y = c(0, 1)),
@@ -24,10 +40,39 @@ output$test <- plotly::renderPlotly({
 })
 output$summaryBoxes <- renderUI({
   shiny::fluidRow(
-    summaryBox::summaryBox("Earnings (Monthly)", "$40,000", width = 3, icon = "fas fa-calendar", style = "info"),
-    summaryBox::summaryBox("Earnings (Monthly)", "$40,000", width = 3, icon = "fas fa-calendar", style = "info"),
-    summaryBox::summaryBox("Earnings (Annual)", "9332", width = 3, icon = "fas fa-dollar-sign", style = "success"),
-    summaryBox::summaryBox("Tasks", "346", width = 3, icon = "fas fa-clipboard-list", style = "danger")
+    summaryBox::summaryBox(
+      title = "Przychody (Ostatni mies.)",
+      value = sales %>% 
+        dplyr::filter(date == max(date)) %>%
+        dplyr::summarise(x = sum(sales, na.rm = T)) %>%
+        pull() %>%
+        formatMoney(),
+      width = 3,
+      icon = "fas fa-dollar-sign",
+      style = "info"
+    ),
+    summaryBox::summaryBox(
+      title = "Przychody (Ostatni rok)",
+      value = sales %>% filter(lubridate::year(date) == max(lubridate::year(date))) %>% summarise(x = sum(sales, na.rm = T)) %>% pull() %>% formatMoney(),
+      width = 3,
+      icon = "fas fa-calendar",
+      style = "info"
+    ),
+    
+    summaryBox::summaryBox(
+      title = paste("Najlepszy sklep w ostatnim miesiącu to:", {top_shop_last_month[1,1]}),
+      value = top_shop_last_month[1,2] %>% formatMoney(),
+      width = 3,
+      icon = "fas fa-dollar-sign",
+      style = "success"
+    ),
+    summaryBox::summaryBox(
+      title = paste("Najlepszy produkt w ostanim miesiacu to:", {top_product_last_month[1,1]}),
+      value = top_product_last_month[1,2] %>% formatMoney(),
+      width = 3,
+      icon = "fas fa-clipboard-list",
+      style = "danger"
+    )
   )
 }
 )

@@ -26,36 +26,36 @@ hometab <- bs4Dash::tabItem(
       )
     )
   ),
-  shiny::h4("Info Boxes"),
-  
-  shiny::fluidRow(
-    
-    bs4Dash::infoBox(
-      tabName = "cardsAPI",
-      title = "Navigate to Cards API section",
-      value = 1410,
-      color = "indigo",
-      icon = icon("laptop-code")
-    ),
-    
-    bs4Dash::infoBox(
-      tabName = "colors",
-      title = "Navigate to colors section",
-      color = "info",
-      value = 240,
-      icon = icon("droplet"),
-      elevation = 4
-    ),
-    
-    bs4Dash::infoBox(
-      title = "Comments",
-      subtitle = "A subtitle",
-      color = "indigo",
-      gradient = TRUE,
-      fill = TRUE,
-      value = 41410,
-      icon = icon("comments"),
-      href = "https://www.google.com"
-    )
-  )
+  # shiny::h4("Info Boxes"),
+  # 
+  # shiny::fluidRow(
+  #   
+  #   bs4Dash::infoBox(
+  #     tabName = "cardsAPI",
+  #     title = "Navigate to Cards API section",
+  #     value = 1410,
+  #     color = "indigo",
+  #     icon = icon("laptop-code")
+  #   ),
+  #   
+  #   bs4Dash::infoBox(
+  #     tabName = "colors",
+  #     title = "Navigate to colors section",
+  #     color = "info",
+  #     value = 240,
+  #     icon = icon("droplet"),
+  #     elevation = 4
+  #   ),
+  #   
+  #   bs4Dash::infoBox(
+  #     title = "Comments",
+  #     subtitle = "A subtitle",
+  #     color = "indigo",
+  #     gradient = TRUE,
+  #     fill = TRUE,
+  #     value = 41410,
+  #     icon = icon("comments"),
+  #     href = "https://www.google.com"
+  #   )
+  # )
 )
