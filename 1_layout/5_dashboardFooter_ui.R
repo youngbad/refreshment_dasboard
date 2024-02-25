@@ -1,5 +1,5 @@
 footer <- bs4Dash::dashboardFooter(
-  fixed = FALSE,
+  fixed = TRUE,
   left = a(
     href = "https://twitter.com/",
     target = "_blank", "@Intelligencia"

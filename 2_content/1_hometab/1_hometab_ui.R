@@ -1,61 +1,54 @@
 hometab <- bs4Dash::tabItem(
   
   tabName = "home",
-  
-  shiny::uiOutput(outputId = "summaryBoxes"),
-  
-  shiny::column(
-    
-    width = 12,
-        
-    shiny::column(width = 9),
-         
+  shiny::fluidRow(
     shiny::column(
       
-      width = 3,
+      width = 12,
       
-      shiny::div(
+      shiny::uiOutput(outputId = "summaryBoxes")
+      
+    )
+  ),
+  
+  br(),
+  
+  shiny::fluidRow(
+  
+    title = h5("Podsumowanie celów sprzedażowych", align = "center"),
+    
+    shiny::fluidRow(
+      
+      shiny::column(
         
-        style = "height: 100px",
+        width = 6,
         
-        plotly::plotlyOutput(
-          outputId = 'test',
-          height = '200px',
-          width = '200px'
+        align = "center",
+
+        shiny::div(
+          
+          plotly::plotlyOutput(
+            outputId = 'home_tab_monthly_sales_goal',
+            height = '550px',
+            width = '550px'
+          )
+        )
+      ),
+      shiny::column(
+        
+        width = 6,
+        
+        align = "center",
+        
+        shiny::div(
+          
+          plotly::plotlyOutput(
+            outputId = 'home_tab_annual_sales_goal',
+           height = '550px',
+           width = '550px'
+          )
         )
       )
     )
-  ),
-  # shiny::h4("Info Boxes"),
-  # 
-  # shiny::fluidRow(
-  #   
-  #   bs4Dash::infoBox(
-  #     tabName = "cardsAPI",
-  #     title = "Navigate to Cards API section",
-  #     value = 1410,
-  #     color = "indigo",
-  #     icon = icon("laptop-code")
-  #   ),
-  #   
-  #   bs4Dash::infoBox(
-  #     tabName = "colors",
-  #     title = "Navigate to colors section",
-  #     color = "info",
-  #     value = 240,
-  #     icon = icon("droplet"),
-  #     elevation = 4
-  #   ),
-  #   
-  #   bs4Dash::infoBox(
-  #     title = "Comments",
-  #     subtitle = "A subtitle",
-  #     color = "indigo",
-  #     gradient = TRUE,
-  #     fill = TRUE,
-  #     value = 41410,
-  #     icon = icon("comments"),
-  #     href = "https://www.google.com"
-  #   )
-  # )
+  )
 )

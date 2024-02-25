@@ -3,16 +3,12 @@ sidebar <- bs4Dash::dashboardSidebar(
   skin = "light",
   status = "primary",
   id = "sidebar",
-  bs4Dash::sidebarUserPanel(
-    image = "https://adminlte.io/themes/v3/dist/img/AdminLTELogo.png",
-    name = "Welcome Onboard!"
-  ),
   bs4Dash::sidebarMenu(
     id = "current_tab",
-    flat = FALSE,
-    compact = FALSE,
+    flat = T,
+    compact = T,
     childIndent = TRUE,
-    bs4Dash::sidebarHeader("Cards"),
+    bs4Dash::sidebarHeader("Menu"),
     bs4Dash::menuItem(
       "Strona Główna",
       tabName = "home",
@@ -41,6 +37,27 @@ sidebar <- bs4Dash::dashboardSidebar(
         "Analiza sprzedazy produktów",
         tabName = "product_sales",
         icon = icon("money-bill-trend-up")
+      )
+    ),
+    bs4Dash::menuItem(
+      "Predykcja",
+      icon = icon("chart-area")
+    ),
+    bs4Dash::menuItem(
+      "Zarządzanie",
+      tabName = "management",
+      icon = icon("sliders"),
+      bs4Dash::menuSubItem(
+        "Produkty",
+        tabName = "management_products"
+      ),
+      bs4Dash::menuSubItem(
+        "Sklepy",
+        tabName = "management_shops"
+      ),
+      bs4Dash::menuSubItem(
+        "Inne",
+        tabName = "management_other"
       )
     )
   )

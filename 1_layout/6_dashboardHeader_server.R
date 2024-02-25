@@ -1,18 +1,20 @@
 output$user <- bs4Dash::renderUser({
   bs4Dash::dashboardUser(
-    name = "Divad Nojnarg",
-    image = "https://adminlte.io/themes/AdminLTE/dist/img/user2-160x160.jpg",
-    title = "shinydashboardPlus",
-    subtitle = "Author",
-    footer = p("The footer", class = "text-center"),
+    name = "User Name",
+    image = "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+    title = "Test User",
     shiny::fluidRow(
       bs4Dash::dashboardUserItem(
-        width = 6,
-        "Item 1"
+        width = 4,
+        "Ustawienia"
       ),
       bs4Dash::dashboardUserItem(
-        width = 6,
-        "Item 2"
+        width = 4,
+        "Konto"
+      ),
+      bs4Dash::dashboardUserItem(
+        width = 4,
+        "Wyloguj"
       )
     )
   )

@@ -6,6 +6,10 @@ population <- readRDS("data/population.RDS")
 #### Transform data ####
 sales$date <- sales$date %>% as.Date()
 
+shopssales <- dplyr::left_join(x = sales, y = shops, by = 'shop') %>%
+  dplyr::select(shop, brand, date, quantity, sales, long, lat, city) %>%
+  dplyr::mutate(id = as.numeric(stri_extract(shop, regex = "\\d+")))
+
 containers <- tibble::tibble(container_type = unique(sales$container))
 containers$img = c(
   paste0('<img src="images/bottle-soda.jpeg" width="30" height="22"/>', containers$container_type[1]),

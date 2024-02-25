@@ -10,7 +10,7 @@ dashboardPage(
   help = FALSE,
   fullscreen = FALSE,
   scrollToTop = TRUE,
-  title = "bs4Dash Showcase",
+  title = "Dashboard Showcase",
   header = header,
   sidebar = sidebar,
   body = body,

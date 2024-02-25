@@ -14,31 +14,48 @@ top_product_last_month <- sales %>%
 
 #### Outputs ####
 
-output$test <- plotly::renderPlotly({
-  fig <- plotly::plot_ly(
+output$home_tab_monthly_sales_goal <- plotly::renderPlotly({
+  fig <- plot_ly(
     domain = list(x = c(0, 1), y = c(0, 1)),
-    value = 450,
-    title = list(text = "Speed"),
+    value = sales %>% filter(lubridate::year(date) == max(lubridate::year(date))) %>% summarise(x = sum(sales, na.rm = T)) %>% pull(),
     type = "indicator",
     mode = "gauge+number+delta",
-    delta = list(reference = 380),
     gauge = list(
-     axis = list(range = list(NULL, 500)),
-     steps = list(
-       list(range = c(0, 250), color = "lightgray"),
-       list(range = c(250, 400), color = "gray")),
-     threshold = list(
-       line = list(color = "red", width = 4),
-       thickness = 0.75,
-       value = 490
-      )
-    )
+      axis =list(range = list(NULL, 30000000))
+    ),
+    delta = list(reference = 30000000, increasing = list(color = "RebeccaPurple"))
   )
+  fig <- fig %>%
+    layout(margin = list(l=50,r=50),
+           title = list(text = "Roczny cel sprzedaży", y = 0.95, x = 0.5),
+           plot_bgcolor='rgba(0, 0, 0, 0)',
+           paper_bgcolor='rgba(0, 0, 0, 0)')
   
-  fig %>% plotly::layout(width = NULL, heigth = NULL, plot_bgcolor = "rgba(0,0,0,0)",
-                 paper_bgcolor = "rgba(0,0,0,0)")
 })
-output$summaryBoxes <- renderUI({
+
+output$home_tab_annual_sales_goal <- plotly::renderPlotly({
+  fig <- plot_ly(
+    #domain = list(x = c(0, 1), y = c(0, 1)),
+    value = sales %>% 
+      dplyr::filter(date == max(date)) %>%
+      dplyr::summarise(x = sum(sales, na.rm = T)) %>%
+      pull(),
+    type = "indicator",
+    mode = "gauge+number+delta",
+    gauge = list(
+      axis =list(range = list(NULL, 2000000))
+    ),
+    delta = list(reference = 2000000, increasing = list(color = "green"))
+  )
+  fig <- fig %>%
+    layout(margin = list(l=50,r=50),
+           title = list(text = "Miesieczny cel sprzedaży", y = 0.95, x = 0.5),
+           plot_bgcolor='rgba(0, 0, 0, 0)',
+           paper_bgcolor='rgba(0, 0, 0, 0)')
+  
+})
+
+output$summaryBoxes <- shiny::renderUI({
   shiny::fluidRow(
     summaryBox::summaryBox(
       title = "Przychody (Ostatni mies.)",
@@ -88,11 +105,17 @@ output$sales_revenue <- plotly::renderPlotly({
     "Średnia wartość sprzedanych produktów" = sum(sales, na.rm = T) / sum(quantity, na.rm = T)
     )
   
+  month_names <- c("Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień")
+  
   sumsales %>%
     plotly::plot_ly(x = ~ month,
       y = ~ get(input$varsy),
       type = "bar",
-      textposition = "auto", textfont = list(color = 'rgb(0,0,0)')
+      xaxis = list(tickvals = 1:12, ticktext = month_names),
+      text = ~ get(input$varsy),
+      texttemplate = '%{y:.2s}',
+      hovertemplate = paste('%{x}', '<br>', input$varsy, ': %{y:.2s}<br>'),
+      textposition = "outside", textfont = list(color = 'rgb(0,0,0)')
     )
 }
 )
