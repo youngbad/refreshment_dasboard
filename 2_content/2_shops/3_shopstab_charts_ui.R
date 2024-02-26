@@ -2,59 +2,54 @@ shopstabcharts <- bs4Dash::tabItem(
   
   tabName = 'shops_charts',
   
-  shiny::column(
+  shiny::fluidRow(
     
-    width = 12,
+    shiny::column(
+      
+      width = 4,
+      
+      bs4Dash::bs4TabCard()
+      
+    ),
     
-    bs4Dash::box(
-     title = "Sprzedaż produktów", 
-     elevation = 4,
-     closable = TRUE, 
-     width = 12,
-     solidHeader = TRUE, 
-     status = "primary",
-     collapsible = TRUE,
-     
-      shiny::fluidRow(
+    shiny::column(
+      
+      width = 4,
+      
+      bs4Dash::tabBox(
         
-        shiny::column(
-          
-          width = 4,
-          
-          shinyWidgets::pickerInput(
-            inputId = "sales_revenue_container",
-            label = "Typ opakowania",
-            choices = unique(containers$container_type),
-            choicesOpt = list(content = containers$img)
-          )
-        ),
-        
-        shiny::column(
-          
-          width = 4,
-          
-          shinyWidgets::pickerInput(
-            inputId = "sales_revenue_brand",
-            label = "Rodzaj produktu",
-            choices = unique(sales$brand))
-          ),
-        
-        shiny::column(
-          
-          width = 4,
-          
-          shinyWidgets::pickerInput(
-            inputId = "varsy", 
-            label = "Typ wykresu",
-            choices = c("Wartość sprzedaży", "Ilość sprzedanych produktów", "Średnia wartość sprzedanych produktów"),
-            multiple = F,
-            selected = "Wartość sprzedaży"
-          )
-        )
-     ),
-     
-     plotly::plotlyOutput('sales_revenue')
-     
-   )
+      )
+      
+    ),
+    
+    shiny::column(
+      
+      width = 4
+      
+    )
+    
+  ),
+  
+  shiny::fluidRow(
+    
+    shiny::column(
+      
+      width = 4
+      
+    ),
+    
+    shiny::column(
+      
+      width = 4
+      
+    ),
+    
+    shiny::column(
+      
+      width = 4
+      
+    )
+    
   )
+  
 )

@@ -37,6 +37,11 @@ sidebar <- bs4Dash::dashboardSidebar(
         "Analiza sprzedazy produktów",
         tabName = "product_sales",
         icon = icon("money-bill-trend-up")
+      ),
+      bs4Dash::menuSubItem(
+        "Analiza Marek",
+        tabName = "product_sales_by_brand",
+        icon = icon("bottle-water")
       )
     ),
     bs4Dash::menuItem(
