@@ -7,7 +7,7 @@ population <- readRDS("data/population.RDS")
 sales$date <- sales$date %>% as.Date()
 
 shopssales <- dplyr::left_join(x = sales, y = shops, by = 'shop') %>%
-  dplyr::select(shop, brand, date, quantity, sales, long, lat, city) %>%
+  dplyr::select(shop, brand, date, quantity, sales, long, lat, city, shop_name) %>%
   dplyr::mutate(id = as.numeric(stri_extract(shop, regex = "\\d+")))
 
 containers <- tibble::tibble(container_type = unique(sales$container))

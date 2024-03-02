@@ -6,50 +6,56 @@ shopstabcharts <- bs4Dash::tabItem(
     
     shiny::column(
       
-      width = 4,
+      width = 6,
       
-      bs4Dash::bs4TabCard()
-      
-    ),
-    
-    shiny::column(
-      
-      width = 4,
-      
-      bs4Dash::tabBox(
-        
-      )
+      shop_analisys_cards_ui("Athens_1")
       
     ),
     
     shiny::column(
       
-      width = 4
+      width = 6,
+      
+      shop_analisys_cards_ui("Athens_2")
       
     )
+  ),
     
+  shiny::fluidRow(
+    
+    shiny::column(
+      
+      width = 6,
+      
+      shop_analisys_cards_ui("Irakleion")
+      
+    ),
+    
+    shiny::column(
+      
+      width = 6,
+      
+      shop_analisys_cards_ui("Patra")
+      
+    )
   ),
   
   shiny::fluidRow(
     
     shiny::column(
       
-      width = 4
+      width = 6,
+      
+      shop_analisys_cards_ui("Larisa")
       
     ),
     
     shiny::column(
       
-      width = 4
+      width = 6,
       
-    ),
-    
-    shiny::column(
-      
-      width = 4
+      shop_analisys_cards_ui("Thessaloniki")
       
     )
-    
   )
-  
 )
