@@ -12,3 +12,6 @@ Dashboard created using Bootstrap 4 shinydashboard.
 - *Management* - (in progress...) - a tab that allows you to manage products (their prices, types, etc.), as well as stores.
 
 The dashboard was created in Polish, but an English-language version is planned.
+
+Preview:
+https://jakub-badowski.shinyapps.io/refreshment_dasboard/
