@@ -41,13 +41,16 @@ radioImages <- function(inputId, images, values){
   )
 }
 
-shop_analisys_server_plot_summary <- function(shop_name, selected_year){
+shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year){
+  
+  req(rv)
   
   plot_dt <- shopssales %>%
-    filter(
-      shop_name == shop_name,
-      year(date) == selected_year) %>%
-    group_by(date) %>%
+    dplyr::filter(
+      shop_name == selected_shop_name,
+      year(date) == selected_year
+    ) %>%
+    group_by(month = lubridate::month(date)) %>%
     summarise(
       quantity = sum(quantity),
       sales = sum(sales)
@@ -55,10 +58,11 @@ shop_analisys_server_plot_summary <- function(shop_name, selected_year){
   
   fig <- plot_ly(
     data = plot_dt,
-    x = ~date,
+    x = month_names,
     y = ~sales,
     type = "bar",
-    name = "Wartość"
+    name = "Wartość",
+    xaxis = list(tickvals = 1:12, ticktext = month_names)
   ) %>%
     add_trace(
       y = ~quantity,
@@ -72,6 +76,38 @@ shop_analisys_server_plot_summary <- function(shop_name, selected_year){
     )
   return(fig)
 }
+
+shop_analisys_cards_summary <- function(selected_shop_name, selected_year){
+  
+  req(rv)
+  
+  
+  best_month <- shopssales %>%
+    filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
+    group_by(month = lubridate::month(date)) %>%
+    summarise(sale_value = sum(sales)) %>%
+    arrange(desc(sale_value))
+   
+  best_year <- shopssales %>% 
+    filter(shop_name == selected_shop_name) %>%
+    group_by(year = year(date)) %>%
+    summarise(sale_value = sum(sales)) %>%
+    arrange(desc(sale_value))
+  
+  best_product <- shopssales %>%
+    filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
+    group_by(brand) %>%
+    summarise(sale_value = sum(sales)) %>%
+    arrange(desc(sale_value))
+  
+  dt <- data.table::data.table(
+    "" = c("Najlepszy miesiąc", "Najlepszy rok", "Najlepszy Produkt"),
+    " " = c(month.name[best_month[1,1] %>% as.numeric(), ], best_year[1,1] %>% as.character(), )
+  )
+  
+}
+
+
 
 shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Podsumowanie", "Analiza miesięczna", "Najlepsze produkty")){
   tryCatch({
@@ -94,11 +130,11 @@ shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Podsumow
         width = 12,
         tabPanel(
           title = tabs_names[1],
-          plotly::plotlyOutput(paste0("summary_", shop_name))
+         # plotly::plotlyOutput(paste0("summary_", shop_name))
         ),
         tabPanel(
-          title = tabs_names[2]#,
-         # output[[paste0("monthly_", shop_name)]]
+          title = tabs_names[2],
+          plotly::plotlyOutput(paste0("monthly_", shop_name))
         ),
         tabPanel(
           title = tabs_names[3]#,
