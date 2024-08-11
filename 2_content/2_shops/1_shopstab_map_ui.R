@@ -12,7 +12,7 @@ shopstabmap <- bs4Dash::tabItem(
         
         align = "center",
         
-        shiny::h4("Mapa sklepów "),
+        shiny::h4("Shops Map"),
         
       )
     )
@@ -25,7 +25,7 @@ shopstabmap <- bs4Dash::tabItem(
       width = 12,
       
       bs4Dash::box(
-       title = p("Mapa sklepów", 
+       title = p("Shops Map", 
         shiny::actionButton(
            inputId ="shops_map_help",
            label = "", 

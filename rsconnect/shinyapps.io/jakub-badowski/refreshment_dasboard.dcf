@@ -5,8 +5,9 @@ account: jakub-badowski
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11384205
-bundleId: 8345793
+bundleId: 8345994
 url: https://jakub-badowski.shinyapps.io/refreshment_dasboard/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
+ignoredFiles: test/app.R

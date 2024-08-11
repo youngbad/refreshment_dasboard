@@ -12,11 +12,11 @@ productsales <- bs4Dash::tabItem(
       align="center",
       
       shiny::fluidRow(
-        shiny::h4("Analiza produktów"),
+        shiny::h4("Product analysis"),
       ),
       
       shiny::fluidRow(
-        tags$label("Wybór rodzaju opkaowania napoju")
+        tags$label("Packing type")
       )
     )
   ),

@@ -7,7 +7,7 @@ productsalesbybrand <- bs4Dash::tabItem(
     width = 12,
     
     bs4Dash::box(
-      title = "Sprzedaż produktów", 
+      title = "Product sales", 
       elevation = 4,
       closable = TRUE, 
       width = 12,
@@ -23,7 +23,7 @@ productsalesbybrand <- bs4Dash::tabItem(
           
           shinyWidgets::pickerInput(
             inputId = "sales_revenue_container",
-            label = "Typ opakowania",
+            label = "Packaging type",
             choices = unique(containers$container_type),
             choicesOpt = list(content = containers$img)
           )
@@ -35,7 +35,7 @@ productsalesbybrand <- bs4Dash::tabItem(
           
           shinyWidgets::pickerInput(
             inputId = "sales_revenue_brand",
-            label = "Marka produktu",
+            label = "Product brand",
             choices = unique(sales$brand))
         ),
         
@@ -45,10 +45,10 @@ productsalesbybrand <- bs4Dash::tabItem(
           
           shinyWidgets::pickerInput(
             inputId = "varsy", 
-            label = "Typ wykresu",
-            choices = c("Wartość sprzedaży", "Ilość sprzedanych produktów", "Średnia wartość sprzedanych produktów"),
+            label = "Choose plot:",
+            choices = c("Sales value", "Sales quantity", "Average value of products sold"),
             multiple = F,
-            selected = "Wartość sprzedaży"
+            selected = "Sales value"
           )
         )
       ),

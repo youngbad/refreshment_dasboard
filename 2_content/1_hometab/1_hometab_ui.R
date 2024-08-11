@@ -15,7 +15,7 @@ hometab <- bs4Dash::tabItem(
   
   shiny::fluidRow(
   
-    title = h5("Podsumowanie celów sprzedażowych", align = "center"),
+    title = h5("Summary of sales goals", align = "center"),
     
     shiny::fluidRow(
       
@@ -27,10 +27,12 @@ hometab <- bs4Dash::tabItem(
 
         shiny::div(
           
+          style = "postion:flex;",
+          
           plotly::plotlyOutput(
             outputId = 'home_tab_monthly_sales_goal',
-            height = '550px',
-            width = '550px'
+            height = '350',
+            width = '350'
           )
         )
       ),
@@ -42,10 +44,12 @@ hometab <- bs4Dash::tabItem(
         
         shiny::div(
           
+          style = "postion:flex;",
+          
           plotly::plotlyOutput(
             outputId = 'home_tab_annual_sales_goal',
-           height = '550px',
-           width = '550px'
+           height = '350',
+           width = '350'
           )
         )
       )

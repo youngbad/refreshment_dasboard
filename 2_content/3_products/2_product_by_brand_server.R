@@ -3,10 +3,10 @@ output$sales_revenue <- plotly::renderPlotly({
   sumsales <- sales %>%
     dplyr::filter(container %in% input$sales_revenue_container &
                     brand %in% input$sales_revenue_brand) %>%
-    dplyr::group_by(month = lubridate::month(date), brand, container) %>%
-    dplyr::summarise("Wartość sprzedaży" = sum(sales, na.rm = T),
-                     "Ilość sprzedanych produktów" = sum(quantity, na.rm =T),
-                     "Średnia wartość sprzedanych produktów" = sum(sales, na.rm = T) / sum(quantity, na.rm = T)
+    dplyr::group_by(month = lubridate::month(date, label = TRUE), brand, container) %>%
+    dplyr::summarise("Sales value" = sum(sales, na.rm = T),
+                     "Sales quantity" = sum(quantity, na.rm =T),
+                     "Average value of products sold" = sum(sales, na.rm = T) / sum(quantity, na.rm = T)
     )
   
 

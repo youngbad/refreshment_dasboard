@@ -27,7 +27,7 @@ output$home_tab_monthly_sales_goal <- plotly::renderPlotly({
   )
   fig <- fig %>%
     layout(margin = list(l=50,r=50),
-           title = list(text = "Roczny cel sprzedaży", y = 0.95, x = 0.5),
+           title = list(text = "Annual sales target", y = 0.95, x = 0.5),
            plot_bgcolor='rgba(0, 0, 0, 0)',
            paper_bgcolor='rgba(0, 0, 0, 0)')
   
@@ -49,7 +49,7 @@ output$home_tab_annual_sales_goal <- plotly::renderPlotly({
   )
   fig <- fig %>%
     layout(margin = list(l=50,r=50),
-           title = list(text = "Miesieczny cel sprzedaży", y = 0.95, x = 0.5),
+           title = list(text = "Monthly sales target", y = 0.95, x = 0.5),
            plot_bgcolor='rgba(0, 0, 0, 0)',
            paper_bgcolor='rgba(0, 0, 0, 0)')
   
@@ -58,7 +58,7 @@ output$home_tab_annual_sales_goal <- plotly::renderPlotly({
 output$summaryBoxes <- shiny::renderUI({
   shiny::fluidRow(
     summaryBox::summaryBox(
-      title = "Przychody (Ostatni mies.)",
+      title = "Incomes for last month",
       value = sales %>% 
         dplyr::filter(date == max(date)) %>%
         dplyr::summarise(x = sum(sales, na.rm = T)) %>%
@@ -69,7 +69,7 @@ output$summaryBoxes <- shiny::renderUI({
       style = "info"
     ),
     summaryBox::summaryBox(
-      title = "Przychody (Ostatni rok)",
+      title = "Incomes for last year",
       value = sales %>% filter(lubridate::year(date) == max(lubridate::year(date))) %>% summarise(x = sum(sales, na.rm = T)) %>% pull() %>% formatMoney(),
       width = 3,
       icon = "fas fa-calendar",
@@ -77,14 +77,14 @@ output$summaryBoxes <- shiny::renderUI({
     ),
     
     summaryBox::summaryBox(
-      title = paste("Najlepszy sklep w ostatnim miesiącu to:", {top_shop_last_month[1,1]}),
+      title = paste("Best shop of the month:", {top_shop_last_month[1,1]}),
       value = top_shop_last_month[1,2] %>% formatMoney(),
       width = 3,
       icon = "fas fa-dollar-sign",
       style = "success"
     ),
     summaryBox::summaryBox(
-      title = paste("Najlepszy produkt w ostanim miesiacu to:", {top_product_last_month[1,1]}),
+      title = paste("Best product of the month:", {top_product_last_month[1,1]}),
       value = top_product_last_month[1,2] %>% formatMoney(),
       width = 3,
       icon = "fas fa-clipboard-list",

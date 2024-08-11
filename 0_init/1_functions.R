@@ -61,64 +61,76 @@ shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year)
     x = month_names,
     y = ~sales,
     type = "bar",
-    name = "Wartość",
+    name = "Value",
     xaxis = list(tickvals = 1:12, ticktext = month_names)
   ) %>%
     add_trace(
       y = ~quantity,
-      name = "Ilość"
+      name = "Quantity"
     ) %>%
     layout(
-      yaxis = list(title = "Wartość/Ilość sprzedaży", barmode = "group"),
-      xaxis = list(title = "Data"),
-      title = paste0("Wybrany rok: ", selected_year)
+      yaxis = list(title = "Value/Quantity", barmode = "group"),
+      xaxis = list(title = "Date"),
+      title = paste0("Choosen Year: ", selected_year)
       
     )
   return(fig)
 }
 
 shop_analisys_cards_summary <- function(selected_shop_name, selected_year){
-  
+
   req(rv)
-  
-  
+
+
   best_month <- shopssales %>%
     filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
-    group_by(month = lubridate::month(date)) %>%
+    group_by(year(date), month = lubridate::month(date)) %>%
     summarise(sale_value = sum(sales)) %>%
     arrange(desc(sale_value))
-   
-  best_year <- shopssales %>% 
+  
+  best_month <- best_month[best_month$sale_value == max(best_month$sale_value),]
+    
+
+  best_year <- shopssales %>%
     filter(shop_name == selected_shop_name) %>%
     group_by(year = year(date)) %>%
     summarise(sale_value = sum(sales)) %>%
     arrange(desc(sale_value))
   
+  best_year <- best_year[best_year$sale_value == max(best_year$sale_value),]
+  
+
   best_product <- shopssales %>%
     filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
     group_by(brand) %>%
     summarise(sale_value = sum(sales)) %>%
     arrange(desc(sale_value))
   
+  best_product <- best_product[best_product$sale_value == max(best_product$sale_value),]
+  
+
   dt <- data.table::data.table(
-    "" = c("Najlepszy miesiąc", "Najlepszy rok", "Najlepszy Produkt"),
-    " " = c(month.name[best_month[1,1] %>% as.numeric(), ], best_year[1,1] %>% as.character(), )
+    " " = c("Best month", "Best year", "Best product"),
+    " " = c(paste0(best_month[1,1] %>% as.character, " ", month.name[best_month[1,2] %>% as.numeric()]), best_year[1,1] %>% as.character(), best_product[1,1] %>% as.character()),
+    "Sales value" = c(best_month[1, 3] %>% as.numeric() %>% formatMoney(), best_year[1,2] %>% as.numeric() %>% formatMoney(), best_product[1,2] %>% as.numeric() %>% formatMoney())
   )
   
+  return(dt)
+
 }
 
-
-
-shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Podsumowanie", "Analiza miesięczna", "Najlepsze produkty")){
+shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Summary", "Monthly analysis", "Top products")){
   tryCatch({
     
     ui <- shiny::column(
       
       width = 12,
       
+      align  ="center",
+      
       shiny::selectInput(
         inputId = paste0("shop_sales_selected_year_", shop_name),
-        label = paste0("Wybrany rok"),
+        label = paste0("Choosen year"),
         choices = unique(year(shopssales$date))
         
       ),
@@ -130,7 +142,7 @@ shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Podsumow
         width = 12,
         tabPanel(
           title = tabs_names[1],
-         # plotly::plotlyOutput(paste0("summary_", shop_name))
+          DT::dataTableOutput(paste0("summary_", shop_name))
         ),
         tabPanel(
           title = tabs_names[2],
