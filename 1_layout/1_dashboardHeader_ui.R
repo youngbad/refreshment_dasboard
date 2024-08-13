@@ -5,9 +5,9 @@ header <- bs4Dash::dashboardHeader(
     opacity = 0.8
   ),
   fixed = TRUE,
-  rightUi = shiny::tagList(
-    bs4Dash::userOutput("user")
-  ),
+  # rightUi = shiny::tagList(
+  #   bs4Dash::userOutput("user")
+  # ),
   leftUi = shiny::tagList(
     
   )

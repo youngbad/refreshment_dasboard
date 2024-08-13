@@ -13,43 +13,69 @@ hometab <- bs4Dash::tabItem(
   
   br(),
   
-  shiny::fluidRow(
-  
-    title = h5("Summary of sales goals", align = "center"),
+  bs4Dash::box(
+    
+    width = 12,
+    collapsible = FALSE,
     
     shiny::fluidRow(
       
+      
+      title = h5("Summary of sales goals", align = "center"),
+      
       shiny::column(
         
-        width = 6,
+        width = 4,
         
         align = "center",
-
-        shiny::div(
+        
+        shiny::fluidRow(
           
-          style = "postion:flex;",
+          shiny::div(
+            
+            style = "postion:flex;",
+            
+            plotly::plotlyOutput(
+              outputId = 'home_tab_annual_sales_goal',
+              height = '350',
+              width = '350'
+            )
+          )
+        ),
+        
+        shiny::fluidRow(
           
-          plotly::plotlyOutput(
-            outputId = 'home_tab_monthly_sales_goal',
-            height = '350',
-            width = '350'
+          shiny::div(
+            
+            style = "postion:flex;",
+            
+            plotly::plotlyOutput(
+              outputId = 'home_tab_monthly_sales_goal',
+              height = '350',
+              width = '350'
+            )
           )
         )
       ),
       shiny::column(
         
-        width = 6,
+        width = 8,
         
         align = "center",
         
-        shiny::div(
-          
-          style = "postion:flex;",
-          
+        shiny::fluidRow(
           plotly::plotlyOutput(
-            outputId = 'home_tab_annual_sales_goal',
-           height = '350',
-           width = '350'
+             outputId = 'year_sales_by_city_lineplot',
+             height = '333'
+             )
+        ),
+        
+        br(),
+        
+        shiny::fluidRow(
+          plotly::plotlyOutput(
+            outputId = 'annualy_sales_by_city_lineplot',
+            height = '333'
           )
         )
       )
