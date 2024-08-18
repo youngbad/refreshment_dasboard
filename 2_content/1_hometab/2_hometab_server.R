@@ -21,9 +21,9 @@ output$home_tab_monthly_sales_goal <- plotly::renderPlotly({
     type = "indicator",
     mode = "gauge+number+delta",
     gauge = list(
-      axis =list(range = list(NULL, 30000000))
+      axis =list(range = list(NULL, 35000000))
     ),
-    delta = list(reference = 30000000, increasing = list(color = "RebeccaPurple"))
+    delta = list(reference = 35000000, increasing = list(color = "RebeccaPurple"))
   )
   fig <- fig %>%
     layout(margin = list(l=50,r=50),

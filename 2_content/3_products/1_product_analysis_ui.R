@@ -1,62 +1,70 @@
+productOverviewUI <- function(id){
+  ns <- NS(id)
+  tagList(
+    
+    shiny::div(
+      
+      shiny::column(
+        width = 12,
+        
+        align="center",
+        
+        shiny::fluidRow(
+          shiny::h4("Product analysis"),
+        ),
+        
+        shiny::fluidRow(
+          tags$label("Packing type")
+        )
+      )
+    ),
+    
+    shiny::div(
+      
+      style = "display: flex;
+             justify-content: center;",
+      
+      radioImages(
+        inputId = ns("radio"),
+        images = c("images/bottle-soda.jpeg", "images/plastic-bottle.png", "images/can.jpeg"),
+        values = c("glass", "plastic", "can"),
+        selected = "glass"
+       
+      )
+    ),
+    
+    br(),
+    
+    shiny::selectInput(
+      inputId = ns("year_select"),
+      label = "Select Year",
+      choices = unique(lubridate::year(sales$date))
+    ),
+    
+    shinyThings::buttonGroup(
+      inputId = ns("brand_select"),
+      choices = unique(sales$brand),
+      choice_labels = unique(sales$brand_clean),
+      selected = "adult-cola",
+      multiple = TRUE,
+      btn_class = "btn-info"
+      ),
+    
+    DT::dataTableOutput(outputId = ns('by_brand'))
+    
+  )
+}
+
 productsales <- bs4Dash::tabItem(
   
   tabName = "product_sales",
-  
-  shinyjs::useShinyjs(),
-  
-  shiny::div(
-    
-    shiny::column(
-      width = 12,
-      
-      align="center",
-      
-      shiny::fluidRow(
-        shiny::h4("Product analysis"),
-      ),
-      
-      shiny::fluidRow(
-        tags$label("Packing type")
-      )
-    )
-  ),
-
-  shiny::div(
-    
-    style = "display: flex;
-             justify-content: center;",
-    
-    radioImages(
-      inputId = "radio",
-      images = c("images/bottle-soda.jpeg", "images/plastic-bottle.png", "images/can.jpeg"),
-      values = c("soda", "plastic-bottle", "can")
-    )
-  ),
   
   shiny::div(
     
     id = "product_analysis_soda_selected",
     
-    h5("soda selected hidden")
+    productOverviewUI("product_analysis")
     
-  ) %>% shinyjs::hidden(),
-  
-  shiny::div(
-    
-    id = "product_analysis_bottle_selected",
-    
-    h5("bottle selected hidden")
-    
-  ) %>% shinyjs::hidden(),
-  
-  shiny::div(
-    
-    id = "product_analysis_can_selected",
-    
-    h5("can selectesad"),
-    
-    dataTableOutput('product_analysis_can_table')
-    
-  ) %>% shinyjs::hidden()
+  )
   
 )

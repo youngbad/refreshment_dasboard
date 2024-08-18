@@ -10,46 +10,46 @@ sidebar <- bs4Dash::dashboardSidebar(
     childIndent = TRUE,
     bs4Dash::sidebarHeader("Menu"),
     bs4Dash::menuItem(
-      "Strona Główna",
+      "Home Tab",
       tabName = "home",
       icon = icon("sliders")
     ),
     bs4Dash::menuItem(
-      "Sklepy",
+      "Shops",
       tabName = "shops",
       icon = icon("shop"),
       bs4Dash::menuSubItem(
-        "Mapa sklepów",
+        "Shops map",
         tabName = "shops_map",
         icon = icon("map-location")
       ),
       bs4Dash::menuSubItem(
-        "Analiza sklepów",
+        "Shop sales",
         tabName = "shops_charts",
         icon = icon("store")
       )
     ),
     bs4Dash::menuItem(
-      "Produkty",
+      "Products",
       tabName = "products",
       icon = icon("bottle-water"),
       bs4Dash::menuSubItem(
-        "Analiza sprzedazy produktów",
+        "Product sale",
         tabName = "product_sales",
         icon = icon("money-bill-trend-up")
       ),
       bs4Dash::menuSubItem(
-        "Analiza Marek",
+        "Brands",
         tabName = "product_sales_by_brand",
         icon = icon("bottle-water")
       )
     ),
     bs4Dash::menuItem(
-      "Predykcja",
+      "Prediction [TBA]",
       icon = icon("chart-area")
     ),
     bs4Dash::menuItem(
-      "Zarządzanie",
+      "Managment [TBA]",
       tabName = "management",
       icon = icon("sliders"),
       bs4Dash::menuSubItem(

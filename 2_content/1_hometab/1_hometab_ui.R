@@ -37,7 +37,7 @@ hometab <- bs4Dash::tabItem(
             
             plotly::plotlyOutput(
               outputId = 'home_tab_annual_sales_goal',
-              height = '350',
+              height = '250',
               width = '350'
             )
           )
@@ -51,7 +51,7 @@ hometab <- bs4Dash::tabItem(
             
             plotly::plotlyOutput(
               outputId = 'home_tab_monthly_sales_goal',
-              height = '350',
+              height = '250',
               width = '350'
             )
           )
@@ -66,7 +66,7 @@ hometab <- bs4Dash::tabItem(
         shiny::fluidRow(
           plotly::plotlyOutput(
              outputId = 'year_sales_by_city_lineplot',
-             height = '333'
+             height = '225'
              )
         ),
         
@@ -75,7 +75,7 @@ hometab <- bs4Dash::tabItem(
         shiny::fluidRow(
           plotly::plotlyOutput(
             outputId = 'annualy_sales_by_city_lineplot',
-            height = '333'
+            height = '225'
           )
         )
       )

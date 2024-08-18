@@ -1,36 +1,32 @@
-observeEvent(input$radio, {
-  if(input$radio == "soda") {
-    
-    shinyjs::show("product_analysis_soda_selected")
-    shinyjs::hide("product_analysis_bottle_selected")
-    shinyjs::hide("product_analysis_can_selected")
-    
-  } else if(input$radio == "plastic-bottle"){
-    
-    shinyjs::show("product_analysis_bottle_selected")
-    shinyjs::hide("product_analysis_can_selected")
-    shinyjs::hide("product_analysis_soda_selected")
-    
-    
-  } else if(input$radio == "can"){
-    
-    shinyjs::show("product_analysis_can_selected")
-    shinyjs::hide("product_analysis_bottle_selected")
-    shinyjs::hide("product_analysis_soda_selected")
-    
-    print(sales %>% head)
-    
-  }
-})
+productOverviewServer <- function(id){
+  
+  moduleServer(id, 
+   function(input, output, session) {
+     #observe(browser())
+    output$by_brand <- DT::renderDT(
+      DT::datatable({
+        data$shopssales %>% filter(
+          lubridate::year(date) == input$year_select,
+          brand %in% input$brand_select,
+          container == as.character(input$radio)
+        ) %>% 
+          group_by(
+            brand
+          ) %>%
+          summarise(
+            Sales = sum(sales, na.rm = T),
+            Quantity = sum(quantity, na.rm = T)
+          )
+      
+      })
+    )
+   }
+  )
+}
 
-output$product_analysis_can_table <- DT::renderDT(
-  DT::datatable({
-    sales %>%
-      filter(container == 'can') %>%
-      group_by(brand) %>%
-      summarise(`Suma sprzedazy `= sum(sales),
-                `Suma sprzedanych produktow` = sum(quantity)
-      )
-    sales
-  })
-)
+
+
+
+
+productOverviewServer("product_analysis")
+

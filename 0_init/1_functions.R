@@ -13,7 +13,7 @@ select_choice_img <- function(img, text) {
   ))
 }
 
-radioImages <- function(inputId, images, values){
+radioImages <- function(inputId, images, values, selected = NULL) {
   radios <- lapply(
     seq_along(images),
     function(i) {
@@ -24,7 +24,8 @@ radioImages <- function(inputId, images, values){
           name = inputId,
           id = id,
           class = "input-hidden",
-          value = as.character(values[i])
+          value = as.character(values[i]),
+          checked = if (!is.null(selected) && values[i] == selected) "checked" else NULL
         ),
         tags$label(
           `for` = id,
@@ -40,6 +41,8 @@ radioImages <- function(inputId, images, values){
     radios
   )
 }
+
+
 
 shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year){
   

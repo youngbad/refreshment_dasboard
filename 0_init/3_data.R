@@ -4,11 +4,23 @@ sales <- readRDS("data/sales.RDS")
 population <- readRDS("data/population.RDS")
 
 
+
 #### Transform data ####
 sales$date <- sales$date %>% as.Date()
 
+sales$brand_clean <- ifelse(sales$brand == "kinder-cola", "Kinder Cola",
+                      ifelse(sales$brand == "adult-cola", "Adult Cola",
+                             ifelse(sales$brand == "orange-power", "Orange Power",
+                                    ifelse(sales$brand == "gazoza", "Gazoza",
+                                           ifelse(sales$brand == "lemon-boost", "Lemon Boost", ""
+                                                  )
+                                           )
+                                    )
+                             )
+                      )
+
 shopssales <- dplyr::left_join(x = sales, y = shops, by = 'shop') %>%
-  dplyr::select(shop, brand, date, quantity, sales, long, lat, city, shop_name) %>%
+  dplyr::select(shop, brand, date, quantity, sales, long, lat, city, shop_name, container) %>%
   dplyr::mutate(id = as.numeric(stri_extract(shop, regex = "\\d+")))
 
 containers <- tibble::tibble(container_type = unique(sales$container))
