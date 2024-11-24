@@ -53,15 +53,15 @@ sidebar <- bs4Dash::dashboardSidebar(
       tabName = "management",
       icon = icon("sliders"),
       bs4Dash::menuSubItem(
-        "Produkty",
+        "Products",
         tabName = "management_products"
       ),
       bs4Dash::menuSubItem(
-        "Sklepy",
+        "Shops",
         tabName = "management_shops"
       ),
       bs4Dash::menuSubItem(
-        "Inne",
+        "Other",
         tabName = "management_other"
       )
     )

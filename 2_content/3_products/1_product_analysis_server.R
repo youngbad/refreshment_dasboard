@@ -1,8 +1,9 @@
 productOverviewServer <- function(id){
   
-  moduleServer(id, 
+  shiny::moduleServer(id,
+                      
    function(input, output, session) {
-     #observe(browser())
+     
     output$by_brand <- DT::renderDT(
       DT::datatable({
         data$shopssales %>% filter(
@@ -10,23 +11,17 @@ productOverviewServer <- function(id){
           brand %in% input$brand_select,
           container == as.character(input$radio)
         ) %>% 
-          group_by(
+          dplyr::group_by(
             brand
           ) %>%
-          summarise(
+          dplyr::summarise(
             Sales = sum(sales, na.rm = T),
             Quantity = sum(quantity, na.rm = T)
           )
-      
       })
     )
    }
   )
 }
 
-
-
-
-
 productOverviewServer("product_analysis")
-

@@ -1,3 +1,4 @@
+#### Numeric values formating functions ####
 formatMoney  <- function(x, ...) {
   paste0("$", formatC(as.numeric(x), format="f", digits=2, big.mark=","))
 }
@@ -6,6 +7,7 @@ formatPretty <- function(x, ...) {
   paste0(formatC(as.numeric(x), format="f", digits = 0, big.mark=","))
 }
 
+
 select_choice_img <- function(img, text) {
   shiny::HTML(paste(
     tags$img(src=img, width=30, height=22),
@@ -13,6 +15,7 @@ select_choice_img <- function(img, text) {
   ))
 }
 
+#### Custom input functions ####
 radioImages <- function(inputId, images, values, selected = NULL) {
   radios <- lapply(
     seq_along(images),
@@ -43,6 +46,7 @@ radioImages <- function(inputId, images, values, selected = NULL) {
 }
 
 
+#### UI Builder functions ####
 
 shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year){
   
@@ -51,15 +55,15 @@ shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year)
   plot_dt <- shopssales %>%
     dplyr::filter(
       shop_name == selected_shop_name,
-      year(date) == selected_year
+      lubridate::year(date) == selected_year
     ) %>%
-    group_by(month = lubridate::month(date)) %>%
-    summarise(
+    dplyr::group_by(month = lubridate::month(date)) %>%
+    dplyr::summarise(
       quantity = sum(quantity),
       sales = sum(sales)
     )
   
-  fig <- plot_ly(
+  fig <- plotly::plot_ly(
     data = plot_dt,
     x = month_names,
     y = ~sales,
@@ -67,11 +71,11 @@ shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year)
     name = "Value",
     xaxis = list(tickvals = 1:12, ticktext = month_names)
   ) %>%
-    add_trace(
+    plotly::add_trace(
       y = ~quantity,
       name = "Quantity"
     ) %>%
-    layout(
+    plotly::layout(
       yaxis = list(title = "Value/Quantity", barmode = "group"),
       xaxis = list(title = "Date"),
       title = paste0("Choosen Year: ", selected_year)
@@ -83,48 +87,52 @@ shop_analisys_server_plot_monthly <- function(selected_shop_name, selected_year)
 shop_analisys_cards_summary <- function(selected_shop_name, selected_year){
 
   req(rv)
-
-
+  
   best_month <- shopssales %>%
-    filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
-    group_by(year(date), month = lubridate::month(date)) %>%
-    summarise(sale_value = sum(sales)) %>%
-    arrange(desc(sale_value))
+    dplyr::filter(lubridate::year(date) == selected_year, shop_name == selected_shop_name) %>%
+    dplyr::group_by(lubridate::year(date), month = lubridate::month(date)) %>%
+    dplyr::summarise(sale_value = sum(sales)) %>%
+    dplyr::arrange(desc(sale_value))
   
   best_month <- best_month[best_month$sale_value == max(best_month$sale_value),]
     
-
   best_year <- shopssales %>%
-    filter(shop_name == selected_shop_name) %>%
-    group_by(year = year(date)) %>%
-    summarise(sale_value = sum(sales)) %>%
-    arrange(desc(sale_value))
+    dplyr::filter(shop_name == selected_shop_name) %>%
+    dplyr::group_by(year = lubridate::year(date)) %>%
+    dplyr::summarise(sale_value = sum(sales)) %>%
+    dplyr::arrange(desc(sale_value))
   
   best_year <- best_year[best_year$sale_value == max(best_year$sale_value),]
-  
 
   best_product <- shopssales %>%
-    filter(year(date) == selected_year, shop_name == selected_shop_name) %>%
-    group_by(brand) %>%
-    summarise(sale_value = sum(sales)) %>%
-    arrange(desc(sale_value))
+    dplyr::filter(lubridate::year(date) == selected_year, shop_name == selected_shop_name) %>%
+    dplyr::group_by(brand) %>%
+    dplyr::summarise(sale_value = sum(sales)) %>%
+    dplyr::arrange(desc(sale_value))
   
   best_product <- best_product[best_product$sale_value == max(best_product$sale_value),]
   
-
   dt <- data.table::data.table(
     " " = c("Best month", "Best year", "Best product"),
-    " " = c(paste0(best_month[1,1] %>% as.character, " ", month.name[best_month[1,2] %>% as.numeric()]), best_year[1,1] %>% as.character(), best_product[1,1] %>% as.character()),
-    "Sales value" = c(best_month[1, 3] %>% as.numeric() %>% formatMoney(), best_year[1,2] %>% as.numeric() %>% formatMoney(), best_product[1,2] %>% as.numeric() %>% formatMoney())
+    " " = c(paste0(best_month[1,1] %>% as.character,
+                   " ",
+                   month.name[best_month[1,2] %>% as.numeric()]),
+            best_year[1,1] %>% as.character(),
+            best_product[1,1] %>% as.character()
+            ),
+    "Sales value" = c(best_month[1, 3] %>% as.numeric() %>% formatMoney(),
+                      best_year[1,2] %>% as.numeric() %>% formatMoney(),
+                      best_product[1,2] %>% as.numeric() %>% formatMoney()
+                      )
   )
   
   return(dt)
-
+  
 }
 
 shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Summary", "Monthly analysis", "Top products")){
   tryCatch({
-    
+  
     ui <- shiny::column(
       
       width = 12,
@@ -134,8 +142,7 @@ shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Summary"
       shiny::selectInput(
         inputId = paste0("shop_sales_selected_year_", shop_name),
         label = paste0("Choosen year"),
-        choices = unique(year(shopssales$date))
-        
+        choices = unique(lubridate::year(shopssales$date))
       ),
       
       bs4Dash::bs4TabCard(
@@ -143,15 +150,15 @@ shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Summary"
         type = 'tabs',
         collapsible = FALSE,
         width = 12,
-        tabPanel(
+        shiny::tabPanel(
           title = tabs_names[1],
           DT::dataTableOutput(paste0("summary_", shop_name))
         ),
-        tabPanel(
+        shiny::tabPanel(
           title = tabs_names[2],
           plotly::plotlyOutput(paste0("monthly_", shop_name))
         ),
-        tabPanel(
+        shiny::tabPanel(
           title = tabs_names[3]#,
           #output[[paste0("best_product_", shop_name)]]
         )
@@ -166,9 +173,3 @@ shop_analisys_cards_ui <- function(shop_name, tabs = 3, tabs_names = c("Summary"
   return(ui)
   
 }
-
-
-
-# shop_analisys_server_dt_summary <- function(shop_name, tab_name){
-#   
-# }

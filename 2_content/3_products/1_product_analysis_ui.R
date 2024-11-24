@@ -1,6 +1,8 @@
 productOverviewUI <- function(id){
+  
   ns <- NS(id)
-  tagList(
+  
+  shiny::tagList(
     
     shiny::div(
       
@@ -66,5 +68,4 @@ productsales <- bs4Dash::tabItem(
     productOverviewUI("product_analysis")
     
   )
-  
 )

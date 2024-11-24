@@ -9,10 +9,10 @@ population <- readRDS("data/population.RDS")
 sales$date <- sales$date %>% as.Date()
 
 sales$brand_clean <- ifelse(sales$brand == "kinder-cola", "Kinder Cola",
-                      ifelse(sales$brand == "adult-cola", "Adult Cola",
-                             ifelse(sales$brand == "orange-power", "Orange Power",
-                                    ifelse(sales$brand == "gazoza", "Gazoza",
-                                           ifelse(sales$brand == "lemon-boost", "Lemon Boost", ""
+                            ifelse(sales$brand == "adult-cola", "Adult Cola",
+                                    ifelse(sales$brand == "orange-power", "Orange Power",
+                                            ifelse(sales$brand == "gazoza", "Gazoza",
+                                                  ifelse(sales$brand == "lemon-boost", "Lemon Boost", ""
                                                   )
                                            )
                                     )
@@ -29,8 +29,3 @@ containers$img = c(
   paste0('<img src="images/plastic-bottle.png" width="30" height="22"/>', containers$container_type[2]),
   paste0('<img src="images/can.jpeg" width="30" height="22"/>', containers$container_type[3])
   )
-
-
-x <- shopssales %>% 
-  group_by(shop_name) %>%
-  summarise(sales = sum(sales), quantity = sum(quantity))
