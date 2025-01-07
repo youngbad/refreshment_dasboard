@@ -5,7 +5,7 @@ source("1_layout/4_dashboardControlbar_ui.R")
 source("1_layout/5_dashboardFooter_ui.R")
 
 dashboardPage(
-  preloader = list(html = tagList(spin_1(), "Wczytywanie ..."), color = "#343a40"),
+  preloader = list(html = tagList(spin_1(), "Preparing enviroment, please wait ..."), color = "#343a40"),
   dark = FALSE,
   help = FALSE,
   fullscreen = FALSE,
